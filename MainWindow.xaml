@@ -1,0 +1,132 @@
+﻿<Window x:Class="NotepadWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NotepadWPF"
+        mc:Ignorable="d"
+        Title="Untitled - .NETpad" Height="600" Width="800" MinHeight="600" MinWidth="800"
+        Name="AppWindow" Closing="AppWindow_Closing" Initialized="AppWindow_Initialized">
+    <Window.Resources>
+        <RoutedUICommand x:Key="SearchWithBingCommand" Text="SearchWithBing"><RoutedUICommand.InputGestures><KeyGesture>Ctrl+E</KeyGesture></RoutedUICommand.InputGestures></RoutedUICommand>
+        <RoutedUICommand x:Key="FindNextCommand" Text="FindNext"><RoutedUICommand.InputGestures><KeyGesture>F3</KeyGesture></RoutedUICommand.InputGestures></RoutedUICommand>
+        <RoutedUICommand x:Key="FindPreviousCommand" Text="FindPrevious"><RoutedUICommand.InputGestures><KeyGesture>Shift+F3</KeyGesture></RoutedUICommand.InputGestures></RoutedUICommand>
+        <RoutedUICommand x:Key="ReplaceCommand" Text="Replace"><RoutedUICommand.InputGestures><KeyGesture>Ctrl+H</KeyGesture></RoutedUICommand.InputGestures></RoutedUICommand>
+        <RoutedUICommand x:Key="ReplaceAllCommand" Text="ReplaceAll"><RoutedUICommand.InputGestures><KeyGesture>Ctrl+Shift+H</KeyGesture></RoutedUICommand.InputGestures></RoutedUICommand>
+        <RoutedUICommand x:Key="GoToCommand" Text="GoTo"><RoutedUICommand.InputGestures><KeyGesture>Ctrl+G</KeyGesture></RoutedUICommand.InputGestures></RoutedUICommand>
+        <RoutedUICommand x:Key="TimeDateCommand" Text="TimeDate"><RoutedUICommand.InputGestures><KeyGesture>F5</KeyGesture></RoutedUICommand.InputGestures></RoutedUICommand>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="NewCommand_Executed" />
+        <CommandBinding Command="Open" Executed="OpenCommand_Executed" />
+        <CommandBinding Command="Save" Executed="SaveCommand_Executed" />
+        <CommandBinding Command="SaveAs" Executed="SaveAsCommand_Executed" />
+        <CommandBinding Command="Print" Executed="PrintCommand_Executed" />
+        <CommandBinding Command="Close" Executed="CloseCommand_Executed" />
+        <CommandBinding Command="Find" Executed="FindCommand_Executed" />
+        <CommandBinding Command="Delete" Executed="DeleteCommand_Executed" />
+        <CommandBinding Command="{StaticResource SearchWithBingCommand}" Executed="SearchWithBingCommand_Executed"/>
+        <CommandBinding Command="{StaticResource FindNextCommand}" Executed="FindNextCommand_Executed" />
+        <CommandBinding Command="{StaticResource FindPreviousCommand}" Executed="FindPreviousCommand_Executed"/>
+        <CommandBinding Command="{StaticResource ReplaceCommand}" Executed="ReplaceCommand_Executed"/>
+        <CommandBinding Command="{StaticResource ReplaceAllCommand}" Executed="ReplaceAllCommand_Executed"/>
+        <CommandBinding Command="{StaticResource GoToCommand}" Executed="GoToCommand_Executed"/>
+        <CommandBinding Command="{StaticResource TimeDateCommand}" Executed="TimeDateCommand_Executed"/>
+        <CommandBinding Command="NavigationCommands.Zoom" Executed="ZoomCommand_Executed" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Ctrl + Shift" Command="SaveAs" />
+        <KeyBinding Key="OemPlus" Modifiers="Ctrl" Command="NavigationCommands.Zoom" CommandParameter="In" />
+        <KeyBinding Key="OemMinus" Modifiers="Ctrl" Command="NavigationCommands.Zoom" CommandParameter="Out" />
+        <KeyBinding Key="D0" Modifiers="Ctrl" Command="NavigationCommands.Zoom" CommandParameter="Restore" />
+    </Window.InputBindings>
+    <Grid Name="MainGrid">
+        <Grid.LayoutTransform><ScaleTransform x:Name="ApplicationScaleTransform" CenterX="0" CenterY="0" ScaleX="{Binding ElementName=AppWindow, Path=ScaleValue}" ScaleY="{Binding ElementName=AppWindow, Path=ScaleValue}" /></Grid.LayoutTransform>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" FlowDirection="LeftToRight">
+            <MenuItem Header="_File">
+                <MenuItem Command="New" Name="NewMenu" Header="_New" />
+                <MenuItem Name="NewWindowMenu" Header="New _Window" Click="NewWindowMenu_Click" />
+                <MenuItem Command="Open" Name="OpenMenu" Header="_Open..." />
+                <MenuItem Command="Save" Name="SaveMenu" Header="_Save" />
+                <MenuItem Command="SaveAs" Name="SaveAsMenu" Header="Save _As..." InputGestureText="Ctrl+Shift+S" />
+                <MenuItem Name="AutoSaveMenu" Header="Auto Sa_ve" Click="AutoSaveMenu_Click" />
+                <Separator />
+                <MenuItem Command="Print" Name="PrintMenu" Header="_Print" />
+                <Separator />
+                <MenuItem Command="Close" Name="ExitMenu" Header="E_xit" InputGestureText="Alt+F4"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="Undo" Name="UndoMenu" Header="_Undo" />
+                <MenuItem Command="Cut" Name="CutMenu" Header="Cu_t" />
+                <MenuItem Command="Copy" Name="CopyMenu" Header="_Copy" />
+                <MenuItem Command="Paste" Name="PasteMenu" Header="_Paste" />
+                <MenuItem Command="Delete" Name="DeleteMenu" Header="De_lete" />
+                <Separator />
+                <MenuItem Command="{StaticResource SearchWithBingCommand}" Name="SearchWithBingMenu" Header="_Search with Bing..." />
+                <MenuItem Command="Find" Name="FindMenu" Header="_Find" />
+                <MenuItem Command="{StaticResource FindNextCommand}" Name="FindNextMenu" Header="Find _Next" />
+                <MenuItem Command="{StaticResource FindPreviousCommand}" Name="FindPreviousMenu" Header="Find Pre_vious" />
+                <MenuItem Command="{StaticResource ReplaceCommand}" Name="ReplaceMenu" Header="_Replace" />
+                <MenuItem Command="{StaticResource ReplaceAllCommand}" Name="ReplaceAllMenu" Header="Replace A_ll" />
+                <MenuItem Command="{StaticResource GoToCommand}" Name="GoToMenu" Header="_Goto" />
+                <Separator />
+                <MenuItem Command="SelectAll" Name="SelectAllMenu" Header="Select _All" />
+                <MenuItem Command="{StaticResource TimeDateCommand}" Name="TimeDateMenu" Header="Time/_Date" InputGestureText="F5" />
+            </MenuItem>
+            <MenuItem Header="_Format">
+                <MenuItem Name="FontMenu" Header="_Font" Click="FontMenu_Click" />
+                <MenuItem Name="WordWrapMenu" Header="_Word Wrap" Click="WordWrapMenu_Click" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Theme">
+                    <MenuItem Name="BlackOnWhiteMenu" Header="Black on _White (Default)" Click="BlackOnWhiteMenu_Click" />
+                    <MenuItem Name="BlackOnLightGrayMenu" Header="Black on _Light Gray" Click="BlackOnLightGrayMenu_Click" />
+                    <MenuItem Name="AmberOnBlackMenu" Header="_Amber on Black" Click="AmberOnBlackMenu_Click" />
+                    <MenuItem Name="GreenOnBlackMenu" Header="_Green on Black" Click="GreenOnBlackMenu_Click" />
+                    <Separator />
+                    <MenuItem Name="TextColorMenu" Header="Select _Text Color..." Click="TextColorMenu_Click" />
+                    <MenuItem Name="BackgroundColorMenu" Header="Select _Background Color..." Click="BackgroundColorMenu_Click" />
+                </MenuItem>
+                <MenuItem Header="_Zoom">
+                    <MenuItem Command="NavigationCommands.Zoom" CommandParameter="In" Name="ZoomInMenu" Header="Zoom _In" InputGestureText="Ctrl+Plus" />
+                    <MenuItem Command="NavigationCommands.Zoom" CommandParameter="Out" Name="ZoomOutMenu" Header="Zoom _Out" InputGestureText="Ctrl+Minus" />
+                    <MenuItem Command="NavigationCommands.Zoom" CommandParameter="Restore" Name="RestoreDefaultZoomMenu" Header="_Restore Default Zoom" InputGestureText="Ctrl+0" />
+                </MenuItem>
+                <MenuItem Header="S_caling">
+                    <MenuItem Header="100% (Default)" Name="Scale100Menu" IsChecked="True" Click="Scale100Menu_Click" />
+                    <MenuItem Header="110%" Name="Scale110Menu" IsChecked="False" Click="Scale110Menu_Click" />
+                    <MenuItem Header="125%" Name="Scale125Menu" IsChecked="False" Click="Scale125Menu_Click" />
+                    <MenuItem Header="150%" Name="Scale150Menu" IsChecked="False" Click="Scale150Menu_Click" />
+                    <MenuItem Header="175%" Name="Scale175Menu" IsChecked="False" Click="Scale175Menu_Click" />
+                </MenuItem>
+                <MenuItem Name="StatusBarMenu" Header="_Status Bar" IsChecked="True" Click="StatusBarMenu_Click" />
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Name="AboutMenu" Header="_About" Click="AboutMenu_Click" />
+            </MenuItem>
+        </Menu>
+        <TextBox Grid.Row="1" AllowDrop="True" Name="TextBox1" AcceptsReturn="True" TextWrapping="NoWrap" BorderThickness="0" FontFamily="Consolas" FontSize="16" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextChanged="TextBox1_TextChanged" SelectionChanged="TextBox1_SelectionChanged" Drop="TextBox1_Drop" PreviewDragOver="TextBox1_PreviewDragOver" />
+        <StatusBar Grid.Row="2" Name="StatusBar1">
+            <StatusBarItem>
+                <TextBlock Width="100" Name="AutoSaveText" Text="Auto Save: Off" Margin="5,0,10,0" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Width="100" Name="PositionText" Text="Ln 1, Col 1" Margin="5,0,10,0" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Width="75" Name="ZoomText" Text="100%" Margin="5,0,10,0" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Width="100" Name="WordCountText" Text="0 words" Margin="5,0,10,0" />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
