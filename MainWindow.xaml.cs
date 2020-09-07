@@ -27,7 +27,7 @@ namespace NotepadWPF
         // Need for auto save
         readonly DispatcherTimer Timer1 = new DispatcherTimer();
 
-        // For app scaling
+        // For app window scaling
         // from inchoatethoughts.com/scaling-your-user-interface-in-a-wpf-application
         #region ScaleValue Dependency Property
         public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
