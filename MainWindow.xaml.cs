@@ -122,6 +122,16 @@ namespace NotepadWPF
             TextBox1.Foreground = new BrushConverter().ConvertFromString(Settings.Default.MyForegroundColor) as SolidColorBrush;
             TextBox1.Background = new BrushConverter().ConvertFromString(Settings.Default.MyBackgroundColor) as SolidColorBrush;
 
+            // Check the appropriate menu item in View > Theme
+            if ((TextBox1.Foreground.ToString() == "#FF000000") & (TextBox1.Background.ToString() == "#FFFFFFFF"))
+                BlackOnWhiteMenu.IsChecked = true;
+            if ((TextBox1.Foreground.ToString() == "#FF000000") & (TextBox1.Background.ToString() == "#FFD3D3D3"))
+                BlackOnLightGrayMenu.IsChecked = true;
+            if ((TextBox1.Foreground.ToString() == "#FFFFA500") & (TextBox1.Background.ToString() == "#FF000000"))
+                AmberOnBlackMenu.IsChecked = true;
+            if ((TextBox1.Foreground.ToString() == "#FF90EE90") & (TextBox1.Background.ToString() == "#FF000000"))
+                GreenOnBlackMenu.IsChecked = true;
+
             // Get Word Wrap from settings
             if (Settings.Default.MyWordWrap == true)
             {
@@ -438,24 +448,44 @@ namespace NotepadWPF
         {
             TextBox1.Foreground = Brushes.Black;
             TextBox1.Background = Brushes.White;
+
+            BlackOnWhiteMenu.IsChecked = true;
+            BlackOnLightGrayMenu.IsChecked = false;
+            AmberOnBlackMenu.IsChecked = false;
+            GreenOnBlackMenu.IsChecked = false;
         }
 
         private void BlackOnLightGrayMenu_Click(object sender, RoutedEventArgs e)
         {
             TextBox1.Foreground = Brushes.Black;
             TextBox1.Background = Brushes.LightGray;
+
+            BlackOnWhiteMenu.IsChecked = false;
+            BlackOnLightGrayMenu.IsChecked = true;
+            AmberOnBlackMenu.IsChecked = false;
+            GreenOnBlackMenu.IsChecked = false;
         }
 
         private void AmberOnBlackMenu_Click(object sender, RoutedEventArgs e)
         {
             TextBox1.Foreground = Brushes.Orange;
             TextBox1.Background = Brushes.Black;
+
+            BlackOnWhiteMenu.IsChecked = false;
+            BlackOnLightGrayMenu.IsChecked = false;
+            AmberOnBlackMenu.IsChecked = true;
+            GreenOnBlackMenu.IsChecked = false;
         }
 
         private void GreenOnBlackMenu_Click(object sender, RoutedEventArgs e)
         {
             TextBox1.Foreground = Brushes.LightGreen;
             TextBox1.Background = Brushes.Black;
+
+            BlackOnWhiteMenu.IsChecked = false;
+            BlackOnLightGrayMenu.IsChecked = false;
+            AmberOnBlackMenu.IsChecked = false;
+            GreenOnBlackMenu.IsChecked = true;
         }
 
         private void TextColorMenu_Click(object sender, RoutedEventArgs e)
@@ -466,6 +496,11 @@ namespace NotepadWPF
                 TextBox1.Foreground = new SolidColorBrush(Color.FromArgb(cd.Color.A, cd.Color.R, cd.Color.G, cd.Color.B));
             }
             cd.Dispose();
+
+            BlackOnWhiteMenu.IsChecked = false;
+            BlackOnLightGrayMenu.IsChecked = false;
+            AmberOnBlackMenu.IsChecked = false;
+            GreenOnBlackMenu.IsChecked = false;
         }
 
         private void BackgroundColorMenu_Click(object sender, RoutedEventArgs e)
@@ -476,6 +511,11 @@ namespace NotepadWPF
                 TextBox1.Background = new SolidColorBrush(Color.FromArgb(cd.Color.A, cd.Color.R, cd.Color.G, cd.Color.B));
             }
             cd.Dispose();
+
+            BlackOnWhiteMenu.IsChecked = false;
+            BlackOnLightGrayMenu.IsChecked = false;
+            AmberOnBlackMenu.IsChecked = false;
+            GreenOnBlackMenu.IsChecked = false;
         }
 
         private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
